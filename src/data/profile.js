@@ -3,7 +3,7 @@ export const profile = {
   name: 'Yousef Samer Yasin',
   shortName: 'Yousef Yasin',
   initials: 'YY',
-  role: 'AI / Machine Learning Engineer · Computer Science · Technical Builder',
+  role: 'AI / Machine Learning Engineer · Data Science & Artificial Intelligence · Technical Builder',
   location: 'Amman, Jordan',
   positioning:
     'I build intelligent systems that work in the real world — from QOYN, an AI career and learning platform, to computer-vision robotics and LLM-based applications.',
