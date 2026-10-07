@@ -47,7 +47,7 @@ body {
 /* Paper grain */
 body::after {
   content: '';
-  position: fixed; inset: 0; pointer-events: none; z-index: 100; opacity: 0.04; mix-blend-mode: multiply;
+  position: fixed; inset: 0; pointer-events: none; z-index: 100; opacity: 0.035;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
@@ -181,10 +181,29 @@ h4, .cf-label, .case-story dt, .facts dt {
   position: relative; min-height: min(100svh, 960px); display: flex; flex-direction: column; justify-content: center;
   overflow: hidden; border-bottom: 1px solid var(--line);
 }
-.scene-slot { position: absolute; inset: 0; z-index: 0; }
-.scene { position: absolute; inset: 0; animation: sceneIn 2.6s var(--ease) 0.3s both; }
-.scene canvas { pointer-events: none; }
-@keyframes sceneIn { from { opacity: 0; transform: scale(0.97); } to { opacity: 1; transform: none; } }
+.hero-visual {
+  position: absolute; z-index: 0; right: max(var(--gutter), calc(50% - 640px + var(--gutter)));
+  top: 50%; width: min(44vw, 600px); aspect-ratio: 1; margin-top: calc(min(44vw, 600px) / -2);
+  --px: 0; --py: 0;
+  animation: hvIn 1.6s var(--ease) 0.25s both;
+}
+@keyframes hvIn { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+.hv-layer, .hv-links { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hv-layer {
+  transform: translate3d(calc(var(--px) * var(--depth) * -6px), calc(var(--py) * var(--depth) * -6px), 0);
+  transition: transform 0.9s var(--ease);
+  will-change: transform;
+}
+.hv-layer svg { width: 100%; height: 100%; overflow: visible; animation: hvFloat 9s ease-in-out infinite; animation-delay: calc(var(--i) * -1.2s); }
+@keyframes hvFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+.hv-plane { fill: rgba(255, 255, 255, 0.72); stroke: var(--line-2); stroke-width: 1; }
+.is-top .hv-plane { fill: var(--surface); stroke: var(--text); stroke-opacity: 0.55; }
+.hv-grid { fill: none; stroke: var(--line); stroke-width: 1; }
+.hv-path { fill: none; stroke: var(--accent); stroke-width: 1.4; stroke-linejoin: round; }
+.hv-node { fill: var(--surface); stroke: var(--text); stroke-width: 1.2; }
+.hv-node.is-key { fill: var(--accent); stroke: var(--accent); }
+.hv-label { font-family: var(--mono); font-size: 12px; fill: var(--text-3); letter-spacing: 0.04em; }
+.hv-links line { stroke: var(--line-2); stroke-width: 1; stroke-dasharray: 3 5; }
 .hero-veil {
   position: absolute; inset: 0; z-index: 1; pointer-events: none;
   background: linear-gradient(90deg, var(--bg) 0%, rgba(247, 245, 240, 0.85) 34%, rgba(247, 245, 240, 0) 60%);
@@ -498,8 +517,9 @@ h4, .cf-label, .case-story dt, .facts dt {
    ============================================================ */
 @media (max-width: 1020px) {
   .hero { min-height: auto; }
-  .hero-veil { background: linear-gradient(180deg, rgba(247, 245, 240, 0) 0%, rgba(247, 245, 240, 0.7) 42%, var(--bg) 70%); }
-  .hero-inner { padding-top: min(52vw, 440px); padding-bottom: 96px; }
+  .hero-veil { display: none; }
+  .hero-visual { right: auto; left: 50%; top: 84px; width: min(56vw, 440px); margin: 0 0 0 calc(min(56vw, 440px) / -2); }
+  .hero-inner { padding-top: calc(84px + min(52vw, 420px)); padding-bottom: 96px; }
   .statement { grid-column: 1 / -1; }
   .about-text { grid-column: 1 / span 7; }
   .facts { grid-column: 8 / -1; }
@@ -540,7 +560,8 @@ h4, .cf-label, .case-story dt, .facts dt {
   .nav-links a:hover { background: none; }
   .nav-toggle { display: block; }
 
-  .hero-inner { padding-top: 78vw; padding-bottom: 88px; }
+  .hero-inner { padding-top: calc(84px + 62vw); padding-bottom: 88px; }
+  .hero-visual { width: 66vw; margin-left: -33vw; }
   .hero-cta .btn { flex: 1 1 auto; justify-content: center; }
   .about-text, .facts { grid-column: 1 / -1; }
   .facts { margin-top: 8px; }

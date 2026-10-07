@@ -1,5 +1,5 @@
 import { profile } from '../data/profile.js';
-import Scene3D from './Scene3D.jsx';
+import HeroVisual from './HeroVisual.jsx';
 import { SocialLinks } from './Layout.jsx';
 import { ArrowRight } from './Icons.jsx';
 
@@ -7,7 +7,7 @@ export default function Hero() {
   const [first, ...rest] = profile.name.split(' ');
   return (
     <section className="hero" id="top">
-      <Scene3D />
+      <HeroVisual />
       <div className="hero-veil" aria-hidden="true" />
       <div className="container hero-inner">
         <p className="hero-kicker mono fade-up" style={{ '--d': '0ms' }}>{profile.location}</p>

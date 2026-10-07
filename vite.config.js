@@ -6,6 +6,4 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   base: './',
-  // three.js is split into its own lazily loaded chunk, so its size is expected.
-  build: { chunkSizeWarningLimit: 900 },
 });

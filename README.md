@@ -6,7 +6,7 @@ Flagship project: **QOYN — AI Career & Learning Platform**.
 
 **Live:** https://yousef-yasin.github.io
 
-Built with **React + Vite**, plain CSS and **Three.js / React Three Fiber** for the 3D scenes. No backend, no UI framework. Runtime dependencies: `react`, `react-dom`, `three`, `@react-three/fiber`.
+Built with **React + Vite** and plain CSS. No backend, no UI framework. Runtime dependencies: `react` and `react-dom`.
 
 ## Run locally
 
@@ -39,8 +39,7 @@ Case studies render only the fields they have. Add `links: { github, demo }`, `r
 ```
 src/
   data/                 content (edit these)
-  components/           Hero, Flagship (QOYN), Projects, Sections, Layout, Visuals (project art + 3D tilt)
-  components/three/     Scene.jsx: the real-time 3D "neural core" (lazy-loaded)
+  components/           Hero, HeroVisual (layered SVG), Flagship (QOYN), Projects, Sections, Layout, Visuals (project art + tilt)
   styles/global.css     design tokens + all styles
 public/projects/        project screenshots
 .github/workflows/deploy.yml   GitHub Pages deployment
@@ -57,8 +56,7 @@ The site deploys to GitHub Pages automatically: every push to `main` runs `.gith
 ## Accessibility & performance
 
 - Semantic sections, skip link, visible focus states, labelled icon links
-- Respects `prefers-reduced-motion`: animations stop and the 3D scene renders a single still frame
-- three.js loads in a separate chunk after first paint, only where WebGL is available; the contact-section scene loads only when scrolled near
-- 3D scenes stop rendering when off-screen
+- Respects `prefers-reduced-motion`: all animations stop
+- The hero visual is lightweight SVG animated with GPU-friendly transforms only; pointer parallax is throttled to animation frames and disabled on touch devices
 
 To add a project screenshot, put the image in `public/projects/` and set `image: { src, alt, width, height }` on the project in `src/data/projects.js`.
