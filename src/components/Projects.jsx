@@ -1,5 +1,5 @@
 import { projects, moreProjects } from '../data/projects.js';
-import Flagship, { CaseFooter } from './Flagship.jsx';
+import Flagship from './Flagship.jsx';
 import { ProjectVisual } from './Visuals.jsx';
 import { ArrowUpRight } from './Icons.jsx';
 
@@ -22,9 +22,11 @@ export default function Projects() {
 
         <Flagship />
 
-        {projects.map((p, i) => (
-          <CaseStudy key={p.id} p={p} index={i + 2} flip={i % 2 === 0} />
-        ))}
+        <div className="cards">
+          {projects.map((p, i) => (
+            <WorkCard key={p.id} p={p} index={i + 2} />
+          ))}
+        </div>
 
         {moreProjects.length > 0 && <MoreWork items={moreProjects} />}
       </div>
@@ -32,32 +34,27 @@ export default function Projects() {
   );
 }
 
-function CaseStudy({ p, index, flip }) {
+function WorkCard({ p, index }) {
+  const href = p.links.demo || p.links.github;
   return (
-    <article className={`case ${flip ? 'case-flip' : ''}`} aria-labelledby={`case-${p.id}`}>
-      <header className="case-head reveal">
-        <span className="case-num" aria-hidden="true">{String(index).padStart(2, '0')}</span>
-        <div className="case-meta">
-          <span className="mono">{p.category}</span>
-        </div>
-      </header>
-
-      <div className="case-grid">
-        <div className="case-visual reveal">
-          <ProjectVisual kind={p.visual} />
-        </div>
-
-        <div className="case-copy">
-          <h3 id={`case-${p.id}`} className="case-name reveal">{p.name}</h3>
-          <p className="case-tagline reveal">{p.tagline}</p>
-          <dl className="case-story reveal">
-            <div><dt>Problem</dt><dd>{p.problem}</dd></div>
-            <div><dt>Solution</dt><dd>{p.solution}</dd></div>
-          </dl>
-        </div>
+    <article className="card reveal" style={{ '--d': `${(index - 2) * 80}ms` }} aria-labelledby={`case-${p.id}`}>
+      <div className="card-visual">
+        <ProjectVisual kind={p.visual} />
       </div>
-
-      <CaseFooter role={p.role} tech={p.tech} links={p.links} />
+      <p className="card-meta mono">
+        <span>{String(index).padStart(2, '0')}</span>
+        <span>{p.category}</span>
+      </p>
+      <h3 id={`case-${p.id}`} className="card-name">{p.name}</h3>
+      <p className="card-text">{p.tagline} {p.solution}</p>
+      <div className="card-foot">
+        <span className="mono">{p.tech.slice(0, 3).join(' / ')}</span>
+        {href && (
+          <a href={href} target="_blank" rel="noreferrer" aria-label={`${p.name} on GitHub`}>
+            <ArrowUpRight width={18} height={18} />
+          </a>
+        )}
+      </div>
     </article>
   );
 }
